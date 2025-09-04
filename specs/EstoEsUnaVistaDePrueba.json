@@ -1,0 +1,50 @@
+{
+  "vista": {
+    "IdVista": "EstoEsUnaVistaDePrueba",
+    "Descripcion": "Vista generada automáticamente: prueba de calendar -> SP",
+    "ArchivoJs": null,
+    "JsCode": null,
+    "TipoVista": "go",
+    "UsaSeguridad": false,
+    "StringsConnectionId": null
+  },
+  "estados": [
+    {
+      "Descripcion": "EstadoUnico",
+      "Default": true,
+      "ArchivoJs": null,
+      "ConfigEstadosJson": "{\"calendarFormat\":\"yyyyMMdd\"}",
+      "Filas": [
+        {
+          "Descripcion": "Fila_1",
+          "Areas": [
+            {
+              "Descripcion": "Area_Grid",
+              "TipoObjeto": "grilla",
+              "Extraccion": {
+                "SpNombre": "dbo.storedProcedurePrueba",
+                "ExecutionType": "siempre"
+              },
+              "ConfigObjetoJson": "{\"paging\":true}",
+              "MapeoParametros": [
+                {
+                  "OrigenUI": "calendarFecha",
+                  "DestinoSP": "@Fecha"
+                }
+              ],
+              "Handlers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "leftMenu": [],
+  "webControls": [
+    {
+      "Tipo": "Calendar",
+      "Nombre": "calendarFecha",
+      "ItemsSp": null
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\bin\Debug\net7.0\ViewScriptGen.exe
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\bin\Debug\net7.0\ViewScriptGen.deps.json
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\bin\Debug\net7.0\ViewScriptGen.runtimeconfig.json
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\bin\Debug\net7.0\ViewScriptGen.dll
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\bin\Debug\net7.0\ViewScriptGen.pdb
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.AssemblyInfoInputs.cache
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.AssemblyInfo.cs
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.csproj.CoreCompileInputs.cache
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.sourcelink.json
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.dll
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\refint\ViewScriptGen.dll
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.pdb
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ViewScriptGen.genruntimeconfig.cache
+C:\Code\Ternium\ViewDesignerSolution\tools\ViewScriptGen\obj\Debug\net7.0\ref\ViewScriptGen.dll

@@ -1,0 +1,52 @@
+{
+  "stringsConnectionId": 14,
+  "objectTypes": {
+    "grafico": 1,
+    "grilla": 2,
+    "gantt": 3,
+    "graficoHtml5": 4,
+    "jscontrol": 5
+  },
+  "executionTypes": {
+    "siempre": 1,
+    "primeravez": 2,
+    "luegoprimeravez": 3,
+    "tituloarea": 4
+  },
+  "handlerTypes": {
+    "RowOnRender": 1,
+    "ReferenceOnRender": 2,
+    "HeaderOnRender": 3,
+    "BodyOnRender": 4
+  },
+  "leftMenuTypes": {
+    "Buscador": 1,
+    "Buscador Multiple": 2,
+    "Arbol": 3,
+    "Arbol Multiple": 4,
+    "Checkbox Sin Búsqueda": 5,
+    "Checkbox Con Búsqueda": 6,
+    "Desde Hasta": 7,
+    "ComboCheck": 8,
+    "TextBox": 9,
+    "Indicador": 10
+  },
+  "webControlTypes": {
+    "Combo": 1,
+    "Calendar": 2,
+    "ListBox": 3,
+    "ButtonList": 4,
+    "Button": 5,
+    "ComboBook": 6,
+    "CalendarMes": 7,
+    "ComboCheck": 8,
+    "TextBox": 9,
+    "Indicador": 10,
+    "CheckBox": 11,
+    "Option": 12,
+    "Pivot": 13,
+    "TituloArea": 14,
+    "Button Clean": 15,
+    "BotonAyuda": 16
+  }
+}

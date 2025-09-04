@@ -1,0 +1,10 @@
+{
+  "github.copilot.chat.experimental.bootstrapSystemPromptPaths": [
+    "ai/01_system_prompt.md"
+  ],
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.DS_Store": true
+  }
+}

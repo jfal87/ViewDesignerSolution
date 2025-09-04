@@ -1,0 +1,101 @@
+{
+  "vista": {
+    "IdVista": "TestVistaLocal",
+    "Descripcion": "Vista de prueba generada por ViewScriptGen",
+    "ArchivoJs": "js/TestVistaLocal.js",
+    "JsCode": null,
+    "TipoVista": "go",
+    "UsaSeguridad": true,
+    "StringsConnectionId": null
+  },
+  "estados": [
+    {
+      "Descripcion": "EstadoInicial",
+      "Default": true,
+      "ArchivoJs": null,
+      "ConfigEstadosJson": "{\"leftMenu\":true}",
+      "Filas": [
+        {
+          "Descripcion": "Fila_1",
+          "Areas": [
+            {
+              "Descripcion": "Area_Chart",
+              "TipoObjeto": "grafico",
+              "Extraccion": {
+                "SpNombre": "dbo.sp_TestVistaLocal_Chart",
+                "ExecutionType": "siempre"
+              },
+              "ConfigObjetoJson": "{\"seriesClickNavigateTo\":\"EstadoDetalle\"}",
+              "MapeoParametros": [
+                {
+                  "OrigenUI": "comboPeriodo",
+                  "DestinoSP": "@Periodo"
+                }
+              ],
+              "Handlers": [
+                {
+                  "HandlerType": "HeaderOnRender",
+                  "Accion": "setTitulo",
+                  "ConfigJson": "{\"texto\":\"Ventas\"}",
+                  "Orden": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Descripcion": "EstadoDetalle",
+      "Default": false,
+      "ArchivoJs": "js/TestVistaLocal_Detalle.js",
+      "ConfigEstadosJson": null,
+      "Filas": [
+        {
+          "Descripcion": "Fila_1",
+          "Areas": [
+            {
+              "Descripcion": "Area_Grid",
+              "TipoObjeto": "grilla",
+              "Extraccion": {
+                "SpNombre": "dbo.sp_TestVistaLocal_Grid",
+                "ExecutionType": "siempre"
+              },
+              "ConfigObjetoJson": "{\"paging\":true}",
+              "MapeoParametros": [
+                {
+                  "OrigenUI": "comboPeriodo",
+                  "DestinoSP": "@Periodo"
+                }
+              ],
+              "Handlers": [
+                {
+                  "HandlerType": "RowOnRender",
+                  "Accion": "semaforo",
+                  "ConfigJson": "{\"column\":\"Revenue\",\"ranges\":[{\"min\":0,\"max\":10000,\"color\":\"red\"},{\"min\":10001,\"max\":50000,\"color\":\"yellow\"},{\"min\":50001,\"max\":null,\"color\":\"green\"}]}",
+                  "Orden": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "leftMenu": [
+    {
+      "Solapa": "General",
+      "Items": [
+        "Periodo",
+        "Gerencia"
+      ]
+    }
+  ],
+  "webControls": [
+    {
+      "Tipo": "Combo",
+      "Nombre": "comboPeriodo",
+      "ItemsSp": "dbo.sp_ItemsPeriodo"
+    }
+  ]
+}

@@ -1,5 +1,284 @@
 {
+
+  "ownerId": 1,
+  "owners": { 
+    "Default": 1 
+  },
   "stringsConnectionId": 14,
+  "stringsConnections": {
+    "TERMXGESDB17.dwh_sitesistemas": {
+      "id": 2,
+      "type": "sqlserver"
+    },
+    "SiteSistemas": {
+      "id": 5,
+      "type": "sqlserver"
+    },
+    "DW_TERNIUM": {
+      "id": 38,
+      "type": "sqlserver"
+    },
+    "TERMXDWHSQL53.GO_Siderar": {
+      "id": 40,
+      "type": "sqlserver"
+    },
+    "TERMXDWHSQL53.FWGestion_Monitor": {
+      "id": 39,
+      "type": "sqlserver"
+    },
+    "dwh_sitesInternacionales": {
+      "id": 10,
+      "type": "sqlserver"
+    },
+    "ClientesGlobales": {
+      "id": 11,
+      "type": "sqlserver"
+    },
+    "ArkanoTest": {
+      "id": 12,
+      "type": "sqlserver"
+    },
+    "GECASur": {
+      "id": 13,
+      "type": "sqlserver"
+    },
+    "GestionEngine": {
+      "id": 14,
+      "type": "sqlserver"
+    },
+    "SiteSCM": {
+      "id": 16,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL10": {
+      "id": 17,
+      "type": "sqlserver"
+    },
+    "SiteSELO": {
+      "id": 18,
+      "type": "sqlserver"
+    },
+    "SiteMtto": {
+      "id": 19,
+      "type": "sqlserver"
+    },
+    "DWH_ARGENTINA": {
+      "id": 20,
+      "type": "sqlserver"
+    },
+    "GOSQL-SIDERAR-DESA": {
+      "id": 24,
+      "type": "sqlserver"
+    },
+    "DWH_TERNIUM_GO": {
+      "id": 22,
+      "type": "sqlserver"
+    },
+    "GECA": {
+      "id": 23,
+      "type": "sqlserver"
+    },
+    "sarwis09.DW_SiteSistemas_ternium": {
+      "id": 25,
+      "type": "sqlserver"
+    },
+    "sarwis09.siderar.techint.net_DM_VF_Ternium": {
+      "id": 26,
+      "type": "sqlserver"
+    },
+    "sarwis09.siderar.techint.net_ModeloDatos": {
+      "id": 27,
+      "type": "sqlserver"
+    },
+    "terardwhdb14": {
+      "id": 28,
+      "type": "sqlserver"
+    },
+    "terardwhdb14.ternium.techint.net": {
+      "id": 29,
+      "type": "sqlserver"
+    },
+    "TERARDWHDB34": {
+      "id": 30,
+      "type": "sqlserver"
+    },
+    "termxdwhsql50": {
+      "id": 31,
+      "type": "sqlserver"
+    },
+    "DM_GECA_Hylsa_MARLENE": {
+      "id": 32,
+      "type": "sqlserver"
+    },
+    "DW_Tenigal_MARLENE": {
+      "id": 33,
+      "type": "sqlserver"
+    },
+    "DM_VF_Hylsa_Rep_MARLENE": {
+      "id": 34,
+      "type": "sqlserver"
+    },
+    "GO_Siderar_50": {
+      "id": 35,
+      "type": "sqlserver"
+    },
+    "DWH_FlashCreditos": {
+      "id": 36,
+      "type": "sqlserver"
+    },
+    "DW_HYLSA": {
+      "id": 37,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL05_DM_SiteComercial_Hylsa_Rep": {
+      "id": 41,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL05_Comercial": {
+      "id": 42,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL05_DM_SCM_Hylsa_Rep": {
+      "id": 43,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL05_DM_VF_Hylsa_Rep": {
+      "id": 44,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL05_Tenigal": {
+      "id": 45,
+      "type": "sqlserver"
+    },
+    "TERMXGESSQL05_DW_Ternium": {
+      "id": 46,
+      "type": "sqlserver"
+    },
+    "NOVA_ServiciosMedicos": {
+      "id": 47,
+      "type": "sqlserver"
+    },
+    "DW_Cartelera": {
+      "id": 48,
+      "type": "sqlserver"
+    },
+    "ConnectionStringOracle": {
+      "id": 49,
+      "type": "oracle"
+    },
+    "TERARDWHDB34_DWSites": {
+      "id": 50,
+      "type": "sqlserver"
+    },
+    "DWH_Ternium_ING": {
+      "id": 51,
+      "type": "sqlserver"
+    },
+    "StrConnExiros": {
+      "id": 52,
+      "type": "sqlserver"
+    },
+    "DWH_INTERNACIONAL": {
+      "id": 53,
+      "type": "sqlserver"
+    },
+    "DM_Planeacion_VIS": {
+      "id": 54,
+      "type": "sqlserver"
+    },
+    "TERARDWHDB34-DIAF": {
+      "id": 55,
+      "type": "sqlserver"
+    },
+    "EncuestasClientes": {
+      "id": 56,
+      "type": "sqlserver"
+    },
+    "GestionEngine_17": {
+      "id": 57,
+      "type": "sqlserver"
+    },
+    "TERMXGESSDE01_GO_Siderar": {
+      "id": 58,
+      "type": "sqlserver"
+    },
+    "TERBRDWHDB01_VF_BRASIL": {
+      "id": 59,
+      "type": "sqlserver"
+    },
+    "DW_GestionChatarra": {
+      "id": 60,
+      "type": "sqlserver"
+    },
+    "DW_gestionSCH": {
+      "id": 61,
+      "type": "sqlserver"
+    },
+    "ASMX_Ternium": {
+      "id": 62,
+      "type": "asmx"
+    },
+    "DM_TrackingProducto": {
+      "id": 63,
+      "type": "sqlserver"
+    },
+    "DM_TrackingPlanchon": {
+      "id": 64,
+      "type": "sqlserver"
+    },
+    "DWH_TERNIUM_GO45": {
+      "id": 66,
+      "type": "sqlserver"
+    },
+    "DM_Planeacion": {
+      "id": 67,
+      "type": "sqlserver"
+    },
+    "GOSQL-SIDERAR-QA": {
+      "id": 68,
+      "type": "sqlserver"
+    },
+    "GestionEngineDesarrollo": {
+      "id": 69,
+      "type": "sqlserver"
+    },
+    "TRK_Seguridad": {
+      "id": 70,
+      "type": "sqlserver"
+    },
+    "FileManager": {
+      "id": 71,
+      "type": "sqlserver"
+    },
+    "Encuestas_Clientes": {
+      "id": 72,
+      "type": "sqlserver"
+    },
+    "TERMXDWHSQL13_dwh_ternium": {
+      "id": 73,
+      "type": "sqlserver"
+    },
+    "AnalysisServices_Test": {
+      "id": 74,
+      "type": "sqlserver"
+    },
+    "GESSQL-SIDERAR-DESA": {
+      "id": 76,
+      "type": "sqlserver"
+    },
+    "CalidadCentral": {
+      "id": 77,
+      "type": "sqlserver"
+    },
+    "SiteHise": {
+      "id": 80,
+      "type": "sqlserver"
+    },
+    "DWH_CUENTAECONOMICA": {
+      "id": 81,
+      "type": "sqlserver"
+    }
+  },
   "objectTypes": {
     "grafico": 1,
     "grilla": 2,
@@ -48,5 +327,22 @@
     "TituloArea": 14,
     "Button Clean": 15,
     "BotonAyuda": 16
+  },
+  "leftMenuInstanceTypes": {
+    "LeftMenuBasico": {
+      "id": 1,
+      "class": "LibreriaObjetosLeftMenu.Clases.LeftMenuBasico",
+      "default": true
+    },
+    "LeftMenuExpansionUno": {
+      "id": 2,
+      "class": "LibreriaObjetosLeftMenu.Clases.LeftMenuExpansionUno",
+      "default": false
+    },
+    "LeftMenuRetornoArbolCompleto": {
+      "id": 3,
+      "class": "LibreriaObjetosLeftMenu.Clases.LeftMenuRetornoArbolCompleto",
+      "default": false
+    }
   }
 }

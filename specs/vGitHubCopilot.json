@@ -1,0 +1,39 @@
+{
+  "vista": {
+    "IdVista": "vGitHubCopilot",
+    "Descripcion": "Vista mínima: vGitHubCopilot",
+    "ArchivoJs": "",
+    "JsCode": null,
+    "TipoVista": "go",
+    "UsaSeguridad": false,
+    "StringsConnectionId": null
+  },
+  "estados": [
+    {
+      "Descripcion": "EstadoUnico",
+      "Default": true,
+      "ArchivoJs": null,
+      "ConfigEstadosJson": null,
+      "Filas": [
+        {
+          "Descripcion": "Fila_1",
+          "Areas": [
+            {
+              "Descripcion": "Area_Grid",
+              "TipoObjeto": "grilla",
+              "Extraccion": {
+                "SpNombre": "dbo.PRC_GET_GRID_TEST_SORT_COLUMN",
+                "ExecutionType": "siempre"
+              },
+              "ConfigObjetoJson": "{\"paging\":true}",
+              "MapeoParametros": [],
+              "Handlers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "leftMenu": [],
+  "webControls": []
+}

@@ -65,22 +65,42 @@ class Program
     {
         try
         {
-            var inputSpec = args.Length > 0 ? args[0] : "specs/sample_view.json";
+            // Modo archivo (.json) o modo frase
+            bool hasArg = args.Length > 0;
+            bool isJsonArg = hasArg && args[0].EndsWith(".json", StringComparison.OrdinalIgnoreCase) && File.Exists(args[0]);
+
+            // Si es .json, lo usamos; si no, el sample por compatibilidad (pero no se leerá en modo frase)
+            var inputSpecPath = isJsonArg ? args[0] : "specs/sample_view.json";
             var outputDir = args.Length > 1 ? args[1] : "sql/generated";
             var catalogsPath = args.Length > 2 ? args[2] : "tools/ViewScriptGen/catalogs.json";
 
             Directory.CreateDirectory(outputDir);
 
-            var spec = JsonSerializer.Deserialize<Spec>(File.ReadAllText(inputSpec), new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            }) ?? throw new Exception("No pude deserializar el spec.json");
-
+            // Cargar catálogos
             var cat = JsonSerializer.Deserialize<Catalogs>(File.ReadAllText(catalogsPath), new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             }) ?? throw new Exception("No pude deserializar catalogs.json");
 
+            // Obtener el Spec: desde .json o desde la frase
+            Spec spec;
+            if (isJsonArg)
+            {
+                spec = JsonSerializer.Deserialize<Spec>(File.ReadAllText(inputSpecPath), new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }) ?? throw new Exception("No pude deserializar el spec.json");
+            }
+            else
+            {
+                var phrase = hasArg ? args[0] : "";
+                spec = SpecFromPhrase(phrase);
+            }
+
+            // Normaliza / valida (1 estado, 1 fila, 1 área, grilla + SP)
+            spec = NormalizeAndGuard(spec, cat);
+
+            // Genera SQL
             var sql = GenerateSql(spec, cat);
             var fileName = $"{Sanitize(spec.Vista.IdVista)}_{DateTime.UtcNow:yyyyMMddHHmmss}.sql";
             var outPath = Path.Combine(outputDir, fileName);
@@ -90,6 +110,9 @@ class Program
 
             File.WriteAllText(outPath, sql, Encoding.UTF8);
             Console.WriteLine("OK -> " + outPath);
+
+            // Abrir automáticamente en VS Code (o visor por defecto si no está code)
+            TryOpenInEditor(outPath);
 
             return 0;
         }
@@ -415,4 +438,148 @@ class Program
             sb.AppendLine(line.TrimStart());
         return sb.ToString();
     }
+
+    static Spec NormalizeAndGuard(Spec s, Catalogs cat)
+    {
+        // 1) Validación crítica
+        if (s?.Vista == null || string.IsNullOrWhiteSpace(s.Vista.IdVista))
+            throw new Exception("Falta IdVista.");
+
+        // 2) Forzar estructura 1-1-1-1
+        if (s.Estados == null || s.Estados.Count == 0)
+            s = s with { Estados = new List<SpecEstado>() };
+
+        if (s.Estados.Count > 1)
+            throw new Exception("Modo sencillo: solo 1 estado permitido.");
+
+        var estado = s.Estados.Count == 1 ? s.Estados[0]
+            : new SpecEstado("EstadoUnico", true, "", null, new List<SpecFila>());
+
+        if (estado.Filas == null || estado.Filas.Count == 0)
+            estado = estado with { Filas = new List<SpecFila> { new SpecFila("Fila 1", new List<SpecArea>()) } };
+
+        if (estado.Filas!.Count > 1)
+            throw new Exception("Modo sencillo: solo 1 fila permitida.");
+
+        var fila = estado.Filas[0];
+
+        if (fila.Areas == null || fila.Areas.Count == 0)
+            fila = fila with { Areas = new List<SpecArea>() };
+
+        if (fila.Areas!.Count > 1)
+            throw new Exception("Modo sencillo: solo 1 área permitida.");
+
+        SpecArea? area = fila.Areas.Count == 1 ? fila.Areas[0] : null;
+        if (area == null)
+            area = new SpecArea("Grilla principal", "grilla", null, null, null, null);
+
+        // 3) Tipo de objeto obligatorio = grilla (admitimos sinónimos comunes)
+        var tipo = (area.TipoObjeto ?? "").Trim().ToLower();
+        if (tipo is "table" or "grid" or "tabla") tipo = "grilla";
+        if (tipo != "grilla")
+            throw new Exception("Modo sencillo: el tipo de objeto debe ser 'grilla'.");
+
+        // 4) SP obligatorio
+        if (area.Extraccion == null || string.IsNullOrWhiteSpace(area.Extraccion.SpNombre))
+            throw new Exception("Falta el nombre de Stored Procedure para la grilla.");
+
+        // 5) Defaults de ejecución y saneo de extras
+        string exec = (area.Extraccion.ExecutionType ?? "siempre").ToLower();
+        if (!cat.ExecutionTypes.ContainsKey(exec)) exec = "siempre";
+        area = area with
+        {
+            TipoObjeto = "grilla",
+            Extraccion = new SpecExtraccion(area.Extraccion.SpNombre, exec),
+            // solo dejamos ConfigObjetoJson si viene explícito; el resto se anula
+            MapeoParametros = (area.MapeoParametros is { Count: > 0 }) ? area.MapeoParametros : null,
+            Handlers = (area.Handlers is { Count: > 0 }) ? area.Handlers : null
+        };
+
+        fila = new SpecFila(
+            string.IsNullOrWhiteSpace(fila.Descripcion) ? "Fila 1" : fila.Descripcion,
+            new List<SpecArea> { area }
+        );
+
+        estado = estado with
+        {
+            Descripcion = string.IsNullOrWhiteSpace(estado.Descripcion) ? "EstadoUnico" : estado.Descripcion,
+            Default = true,
+            ArchivoJs = "",
+            Filas = new List<SpecFila> { fila }
+        };
+
+        var v = s.Vista;
+        s = s with
+        {
+            Vista = new SpecVista(
+                v.IdVista,
+                string.IsNullOrWhiteSpace(v.Descripcion) ? v.IdVista : v.Descripcion,
+                "",  // ArchivoJs
+                "",  // JsCode
+                string.IsNullOrWhiteSpace(v.TipoVista) ? "go" : v.TipoVista,
+                v.UsaSeguridad,
+                v.StringsConnectionId ?? cat.StringsConnectionId
+            ),
+            Estados = new List<SpecEstado> { estado },
+            LeftMenu = null,
+            WebControls = null
+        };
+
+        return s;
+    }
+    
+    static Spec SpecFromPhrase(string phrase)
+    {
+        if (string.IsNullOrWhiteSpace(phrase))
+            throw new Exception("No recibí una frase. Ejemplo: Crea una vista mínima: IdVista vVentasDiarias, grilla, SP dbo.sp_VentasDiarias");
+
+        // IdVista: busca "IdVista <id>" o "vista <id>"
+        var mId1 = System.Text.RegularExpressions.Regex.Match(phrase, @"\bIdVista\s+([A-Za-z0-9_]+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        var mId2 = System.Text.RegularExpressions.Regex.Match(phrase, @"\bvista\s+([A-Za-z0-9_]+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        var idVista = mId1.Success ? mId1.Groups[1].Value : (mId2.Success ? mId2.Groups[1].Value : null);
+
+        // SP: busca "SP <schema.obj>"
+        var mSp = System.Text.RegularExpressions.Regex.Match(phrase, @"\bSP\s+([A-Za-z0-9_\.\[\]]+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        var sp = mSp.Success ? mSp.Groups[1].Value : null;
+
+        if (string.IsNullOrWhiteSpace(idVista)) throw new Exception("Falta IdVista en la frase. Ej: IdVista vVentasDiarias");
+        if (string.IsNullOrWhiteSpace(sp))      throw new Exception("Falta SP en la frase. Ej: SP dbo.sp_VentasDiarias");
+
+        var vista = new SpecVista(idVista, idVista, "", "", "go", false, null);
+        var area  = new SpecArea("Grilla principal", "grilla", new SpecExtraccion(sp, "siempre"), null, null, null);
+        var fila  = new SpecFila("Fila 1", new List<SpecArea> { area });
+        var est   = new SpecEstado("EstadoUnico", true, "", null, new List<SpecFila> { fila });
+
+        return new Spec(vista, new List<SpecEstado> { est }, null, null);
+    }
+
+    static void TryOpenInEditor(string path)
+    {
+        try
+        {
+            // VS Code (si 'code' está en PATH)
+            var psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "code",
+                Arguments = "-g \"" + path + "\"",
+                UseShellExecute = false
+            };
+            System.Diagnostics.Process.Start(psi);
+        }
+        catch
+        {
+            try
+            {
+                // Abrir con la app predeterminada del SO
+                var psi2 = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = path,
+                    UseShellExecute = true
+                };
+                System.Diagnostics.Process.Start(psi2);
+            }
+            catch { /* no-op */ }
+        }
+    }
+
 }

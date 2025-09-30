@@ -3,7 +3,7 @@
 
     -- === Versionado: calcular nueva versión antes de limpiar ===
 
-    DECLARE @VistaId NVARCHAR(250) = N'vTestCopilot';
+    DECLARE @VistaId NVARCHAR(250) = N'vGitHubCopilot';
     DECLARE @PrevVersion DECIMAL(10,2) = NULL;
 
     -- Obtener versión previa (si existe) de forma segura (sin TRY_CONVERT)
@@ -44,7 +44,7 @@ INSERT INTO dbo.Vistas
 VersionActual, VistaVersionado, ArchivoJs, IdVista, TipoVista, UsaSeguridad,
 User_Create, F_Create, User_Update, F_Update, IdStringsConnectionMyVision, JsCode, Frente)
 VALUES
-(1, 1, @VistaId, N'Vista diaria con Calendar -> Grid - Vista Generada desde GitHub Copilot', @NowUTC,
+(1, 1, @VistaId, N'Vista mínima: vGitHubCopilot', @NowUTC,
 @Version, @Version, N'', @VistaId, N'go', 0,
 @WinUser, @TodayUTC, @WinUser, @TodayUTC, NULL, N'', N'');
 
@@ -89,9 +89,6 @@ User_Create, F_Create, User_Update, F_Update)
 VALUES (@IdEstado, 1, N'EstadoUnico', @VistaId, N'', 0,
 @WinUser, @TodayUTC, @WinUser, @TodayUTC);
 
-INSERT INTO dbo.ConfiguracionesEstados (IdEstado, Configuracion, User_Create, F_Update)
-VALUES (@IdEstado, N'{"calendarFormat":"yyyyMMdd"}', @WinUser, @TodayUTC);
-
 -- Fila: Fila_1
 SET @IDX_Fila = @IDX_Fila + 1;
 SET @IdFila = @IDX_Fila;
@@ -116,7 +113,7 @@ SET @IdSP = @IDX_SP;
 INSERT INTO dbo.StoredProcedure (IdStoredProcedure, Nombre, Descripcion, OrdenEjecucion,
 IdStringConnection, IdExtraccionDato, IdTipoEjecucionSP,
 User_Create, F_Create, User_Update, F_Update)
-VALUES (@IdSP, N'dbo.storedProcedurePrueba', N'', 0,
+VALUES (@IdSP, N'dbo.PRC_GET_GRID_TEST_SORT_COLUMN', N'', 0,
 14, @IdExtraccion, 1,
 @WinUser, @TodayUTC, @WinUser, @TodayUTC);
 
@@ -134,13 +131,6 @@ SET @IdCfg = @IDX_CfgObj;
 INSERT INTO dbo.ConfiguracionesObjetoDeArea (Id, IdObjetoDeArea, Configuracion,
 User_Create, F_Create, User_Update, F_Update)
 VALUES (@IdCfg, @IdObjetoDeArea, N'{"paging":true}',
-@WinUser, @TodayUTC, @WinUser, @TodayUTC);
-
--- Mapeo de Parámetros
-SET @IDX_Mapeo = @IDX_Mapeo + 1;
-INSERT INTO dbo.MapeoParametros (IdMapeoParametro, IdEstado, NombreArea, Parametro, Variable, ValorDefault, IdStoredProcedure, VariableRequest,
-User_Create, F_Create, User_Update, F_Update)
-VALUES (@IDX_Mapeo, @IdEstado, N'Area_Grid', N'@Fecha', N'calendarFecha', NULL, @IdSP, NULL,
 @WinUser, @TodayUTC, @WinUser, @TodayUTC);
 
 -- === Restore de favoritos (si existían) ===

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ViewScriptGen")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+358072af9db32f53f5bd75c620a20a773ddc4d02")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9b669ffd896f0b3cba5d93f6c957de28c339806")]
 [assembly: System.Reflection.AssemblyProductAttribute("ViewScriptGen")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ViewScriptGen")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

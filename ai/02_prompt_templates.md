@@ -1,59 +1,64 @@
-# Prompt Templates
 
-## 1) Vista mínima y abrir el .sql (modo sencillo)
-**Prompt**
-Crea una vista mínima:
-- IdVista: `vVentasDiarias`
-- Un solo estado con **grilla**
-- SP: `dbo.sp_VentasDiarias`
+# 02_prompt_templates.md (Guía de usuario + plantillas)
+```md
+# Guía rápida — ViewDesigner Copilot (Agente) + Plantillas
 
-Usa los defaults del modo sencillo (sin handlers/left menu/web controls) y **crea un archivo** con el SQL en:
-`sql/generated/vVentasDiarias_<YYYYMMDDHHmmss>.sql`, **ábrelo en el editor** y **no ejecutes nada**.
+Este repo está pensado para trabajar **solo con GitHub Copilot** (chat/agent) y, opcionalmente, **Copilot en la terminal (CLI)**.  
+Sigue estos pasos y usa las plantillas del final.
 
 ---
 
-## 2) Vista mínima con parámetros de entrada
-**Prompt**
-Crea una vista mínima:
-- IdVista: `vPedidosPorFecha`
-- Grilla con SP `dbo.sp_PedidosPorFecha`
-- Agrega mapeo de parámetros UI → SP:
-  - `FechaDesde` → `@Desde`
-  - `FechaHasta` → `@Hasta`
+## 0) Prerrequisitos
+- **VS Code** actualizado.
+- Extensiones:
+  - **GitHub Copilot** (autocompletado).
+  - **GitHub Copilot Chat** (chat/agents).
+- Inicia sesión en GitHub desde VS Code (status bar, esquina inferior izquierda) y verifica que tu cuenta tenga acceso a Copilot.
 
-Es modo sencillo: 1 estado, 1 fila, 1 área, sin handlers/left menu/web controls.  
-**Genera y abre** `sql/generated/vPedidosPorFecha_<YYYYMMDDHHmmss>.sql`.
+> Tip: abre este repo en la **raíz** (carpeta que contiene `ai/`, `specs/`, `tools/`, `sql/`).
 
 ---
 
-## 3) Generar SQL desde un spec existente
-**Prompt**
-Lee `specs/sample_view.json` y genera el T-SQL completo siguiendo el orden:
-Vistas → Estados → Filas → Áreas → ObjetosDeArea → Extracciones/StoredProcedure → Configuraciones → MapeoParametros → Handlers (si existieran).  
-Incluye `BEGIN TRY/BEGIN TRAN/COMMIT` y `CATCH/ROLLBACK`.  
-Crea/abre `sql/generated/sample_view_<YYYYMMDDHHmmss>.sql`. No ejecutes nada.
+## 1) Activar Copilot (modo agente) en VS Code
+1. Abre el panel **Copilot Chat** (ícono de Copilot o `Ctrl+I`).
+2. En el cuadro de entrada:
+   - Elige el **agente** `@workspace` (o el que uses por defecto).
+   - **Añade contexto** con el ícono de clip o escribiendo `#` y seleccionando archivos.
+3. **Fija** (pin) los archivos de contexto para toda la conversación.
+
+### Archivos que debes adjuntar como contexto (siempre)
+- `ai/wiki/01_system_prompt.md`  ← reglas del agente (**obligatorio**)
+- `ai/wiki/02_prompt_templates.md` ← esta guía
+- `tools/ViewScriptGen/Program.cs`
+- `tools/ViewScriptGen/catalogs.json`
+- (Opcional) el `spec.json` que vayas a usar en `specs/*.json`
+
+### Mensaje inicial recomendado
+> **Actúa como ViewDesigner Copilot en MODO RESTRINGIDO.**  
+> Usa y obedece `ai/wiki/01_system_prompt.md`. Si pido algo fuera del repo, responde **“Falta evidencia en la wiki.”**  
+> Trabaja con `tools/ViewScriptGen/*` para generar el SQL y abrirlo en VS Code.
 
 ---
 
-## 4) Revisar y corregir un `spec.json`
-**Prompt**
-Revisa `specs/sample_view.json`. Verifica:
-- Tipos de objeto (solo `grilla` en modo sencillo),
-- Tipo de ejecución de SP,
-- Mapeo de parámetros (origen UI vs destino SP),
-- Ausencia de handlers/left menu/web controls si no se pidieron.
+## 2) Copilot en la terminal (CLI) — opcional
+Si prefieres pedirle cosas a Copilot desde la terminal:
 
-Corrige **lo mínimo** para que pase por el generador (modo sencillo).
+1. Instala **GitHub CLI** (`gh`) y autentícate:
+   - `gh auth login`
+2. Instala **Copilot en la CLI**:
+   - `gh extension install github/gh-copilot`
+3. Prueba:
+   - `gh copilot -h`
+   - `gh copilot explain "qué hace este archivo Program.cs"`
+   - `gh copilot suggest "comando para compilar y ejecutar esta app .NET"`
+   - `gh copilot generate "README con instrucciones de uso"`
+
+> Nota: la CLI **no** reemplaza al generador. Úsala como asistente de línea de comandos.
 
 ---
 
-## 5) Consulta tipo wiki (comentarios)
-**Prompt**
-¿Cómo configuro los comentarios en una vista (según `ai/wiki/comments_config.md`)? Dame pasos exactos.
-
----
-
-## 6) Frase directa (atajo)
-**Prompt**
-“Crear vista `vStockActual` con grilla usando el SP `dbo.sp_StockActual`.”  
-**Crea y abre** `sql/generated/vStockActual_<YYYYMMDDHHmmss>.sql` (sin handlers/left menu/web controls).
+## 3) Ejecutar el generador (desde VS Code)
+- **Modo frase (vista mínima)**  
+  Terminal en la raíz del repo:
+  ```bash
+  dotnet run --project tools/ViewScriptGen "crear vista vVentasDiarias con grilla usando el SP dbo.sp_VentasDiarias"
